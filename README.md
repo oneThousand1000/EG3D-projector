@@ -1,16 +1,72 @@
 # EG3D projector
 
+## installation
+
+Please see **[eg3d](https://github.com/NVlabs/eg3d)** official repo for eg3d installation.
+
+
+
+
+
+## convert pkl to pth file
+
+This step is used to load the parameters from pkl checkpoint and save them to a pth file, so that code modifications can take effect.
+
+```
+cd eg3d
+python convert_pkl_2_pth.py --outdir=convert_pkl_2_pth_out --trunc=0.7    --network_pkl=networks/ffhq512-128.pkl --network_pth=networks/ffhq512-128.pth --sample_mult=2
+```
+
+Validation results will be saved to `convert_pkl_2_pth_out`, please check it.
+
+pth file will be saved to `networks/ffhq512-128.pth`.
+
+## Data preparation
+
+**Notice:** please follow the guidance of **[eg3d](https://github.com/NVlabs/eg3d)** to re-align the FFHQ dataset and extract camera parameters for input image.
+
+In this repo, we need the input image `image_id.png` and its camera parameters `image_id.npy`. (please see the examplar data in  `./eg3d/projector_test_data`)
+
 ## Naive projector
 
+This complementation reproduces the w_projector and w_plus_projector based on the projector [scripts](https://github.com/danielroich/PTI/tree/main/training/projectors) in [PTI](https://github.com/danielroich/PTI).
+
+For w_projector :
+
+```
+cd eg3d
+python run_projector.py --outdir=projector_out --latent_space_type w  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00000.png --c_path ./projector_test_data/00000.npy
+```
+
+Results will be saved to `./eg3d/projector_out/00000_w`
 
 
 
+For w_plus projector:
+
+```
+cd eg3d
+python run_projector.py --outdir=projector_out --latent_space_type w_plus  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00000.png --c_path ./projector_test_data/00000.npy
+```
+
+Results will be saved to `./eg3d/projector_out/00000_w_plus`
+
+## PTI projector
+
+**Notice:** before you run the PTI, please run the naive projector to get the ''first_inv'' latent code (both w and w_plus are OK). Them move the latent codes to `eg3d/projector/PTI/embeddings/{image_id}/` (for example, `eg3d/projector/PTI/embeddings/00000/00000_w.npy`)
 
 
 
+Please modify the `input_c_path` and `input_data_path` in eg3d/projector/PTI/configs/path_configs to specify input data.
 
+Please modify the `first_inv_type`  in eg3d/projector/PTI/configs/hyperparameters to specify which latent code type you use.
 
+```
+cd eg3d/projector/PTI
+python run_PTI
+```
 
+Results will be saved to eg3d/projector/PTI/checkpoints.
 
 # Original EG3D README
 
