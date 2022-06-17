@@ -1,16 +1,18 @@
 # EG3D projector
 
+
+
+<video src="./eg3d/out/00056_w_plus.mp4"></video>
+
+
+
 ## installation
 
 Please see **[eg3d](https://github.com/NVlabs/eg3d)** official repo for eg3d installation.
 
+## convert pkl to pth file (optional)
 
-
-
-
-## convert pkl to pth file
-
-This step is used to load the parameters from pkl checkpoint and save them to a pth file, so that code modifications can take effect.
+This step is used to load the parameters from pkl checkpoint and save them to a pth file, so that code modifications on eg3d can take effect.
 
 ```
 cd eg3d
@@ -23,7 +25,7 @@ pth file will be saved to `networks/ffhq512-128.pth`.
 
 ## Data preparation
 
-**Notice:** please follow the guidance of **[eg3d](https://github.com/NVlabs/eg3d)** to re-align the FFHQ dataset and extract camera parameters for input image.
+**Notice:** please follow the guidance of **[eg3d](https://github.com/NVlabs/eg3d)** to re-align the FFHQ dataset and extract camera parameters (camera parameters can be found in [dataset.json](https://drive.google.com/uc?id=14mzYD1DxUjh7BGgeWKgXtLHWwvr-he1Z)) for input image.
 
 In this repo, we need the input image `image_id.png` and its camera parameters `image_id.npy`. (please see the examplar data in  `./eg3d/projector_test_data`)
 

@@ -31,7 +31,8 @@ eg3d/convert_pkl_2_pth_out
 
 eg3d/projector_out
 
-
+./eg3d-pose-detection-main
+./eg3d-pose-detection-main.zip
 eg3d/projector/PTI/embeddings
 eg3d/projector/PTI/checkpoints
 
