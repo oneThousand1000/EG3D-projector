@@ -27,9 +27,9 @@ pth file will be saved to `networks/ffhq512-128.pth`.
 
 **Notice:** please follow the guidance of **[eg3d](https://github.com/NVlabs/eg3d)** to re-align the FFHQ dataset and extract camera parameters (camera parameters can be found in [dataset.json](https://drive.google.com/uc?id=14mzYD1DxUjh7BGgeWKgXtLHWwvr-he1Z)) for input image.
 
-In this repo, we need the input image `image_id.png` and its camera parameters `image_id.npy`. (please see the examplar data in  `./eg3d/projector_test_data`)
+In this repo,  please prepare the input image `image_id.png` and its camera parameters `image_id.npy`. (please see the examplar data in  `./eg3d/projector_test_data`)
 
-## Naive projector
+## w and w_plus projector
 
 This complementation reproduces the w_projector and w_plus_projector based on the projector [scripts](https://github.com/danielroich/PTI/tree/main/training/projectors) in [PTI](https://github.com/danielroich/PTI).
 
@@ -37,10 +37,10 @@ For w_projector :
 
 ```
 cd eg3d
-python run_projector.py --outdir=projector_out --latent_space_type w  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00000.png --c_path ./projector_test_data/00000.npy
+python run_projector.py --outdir=projector_out --latent_space_type w  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00018.png --c_path ./projector_test_data/00018.npy
 ```
 
-Results will be saved to `./eg3d/projector_out/00000_w`
+Results will be saved to `./eg3d/projector_out/00018_w`
 
 
 
@@ -48,27 +48,37 @@ For w_plus projector:
 
 ```
 cd eg3d
-python run_projector.py --outdir=projector_out --latent_space_type w_plus  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00000.png --c_path ./projector_test_data/00000.npy
+python run_projector.py --outdir=projector_out --latent_space_type w_plus  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00018.png --c_path ./projector_test_data/00018.npy
 ```
 
-Results will be saved to `./eg3d/projector_out/00000_w_plus`
+Results will be saved to `./eg3d/projector_out/00018_w_plus`
 
 ## PTI projector
 
-**Notice:** before you run the PTI, please run the naive projector to get the ''first_inv'' latent code (both w and w_plus are OK). Them move the latent codes to `eg3d/projector/PTI/embeddings/{image_id}/` (for example, `eg3d/projector/PTI/embeddings/00000/00000_w.npy`)
+**Notice:** before you run the PTI, please run the w or w_plusprojector to get the ''first_inv'' latent code (both w and w_plus are OK). 
 
-
-
-Please modify the `input_c_path` and `input_data_path` in eg3d/projector/PTI/configs/path_configs to specify input data.
-
-Please modify the `first_inv_type`  in eg3d/projector/PTI/configs/hyperparameters to specify which latent code type you use.
+Then run:
 
 ```
 cd eg3d/projector/PTI
 python run_PTI
 ```
 
-Results will be saved to eg3d/projector/PTI/checkpoints.
+This script will automatically read the images in `./eg3d/projector_test_data`, and find their pivot latent code in `./eg3d/projector_out`, then finetune the eg3d model.
+
+
+
+Results will be saved to eg3d/projector/PTI/checkpoints, named as `./checkpoints/model_{train_id}_{image name}_{latent space type}.pth`
+
+
+
+You can run the following code to gen video using the obtained checkpoints :
+
+```
+python gen_videos_from_given_latent_code.py --outdir=out --trunc=0.7 --npy_path ./projector_out/00018_w_plus/00018_w_plus.npy   --network=./projector/PTI/checkpoints/{Your PTI ckpt}.pth --sample_mult=2
+```
+
+
 
 # Original EG3D README
 
