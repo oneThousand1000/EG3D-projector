@@ -54,6 +54,8 @@ def project(
     w_samples = G.mapping(torch.from_numpy(z_samples).to(device), c_samples)  # [N, L, C]
     w_samples = w_samples[:, :1, :].cpu().numpy().astype(np.float32)  # [N, 1, C]
     w_avg = np.mean(w_samples, axis=0, keepdims=True)  # [1, 1, C]
+    # print('save w_avg  to ./w_avg.npy')
+    # np.save('./w_avg.npy',w_avg)
     w_avg_tensor = torch.from_numpy(w_avg).cuda()
     w_std = (np.sum((w_samples - w_avg) ** 2) / w_avg_samples) ** 0.5
 
@@ -130,9 +132,9 @@ def project(
                 noise = F.avg_pool2d(noise, kernel_size=2)
         loss = dist + reg_loss * regularize_noise_weight
 
-        if step % 10 == 0:
-            with torch.no_grad():
-                 print({f'step {step } first projection _{w_name}': loss.detach().cpu()})
+        # if step % 10 == 0:
+        #     with torch.no_grad():
+        #          print({f'step {step } first projection _{w_name}': loss.detach().cpu()})
 
         # Step
         optimizer.zero_grad(set_to_none=True)
@@ -146,5 +148,6 @@ def project(
                 buf -= buf.mean()
                 buf *= buf.square().mean().rsqrt()
 
+
+    return w_opt.repeat([1, G.backbone.mapping.num_ws, 1])
     del G
-    return w_opt

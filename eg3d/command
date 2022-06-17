@@ -6,16 +6,24 @@ python run_projector.py --outdir=projector_out --latent_space_type w  --network=
 
 python test.py --outdir=out --trunc=0.7 --seeds=0-3 --grid=2x2  --network=networks/ffhq512-128.pkl --sample_mult=2
 
-python run_projector.py --outdir=projector_out --latent_space_type w  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00000.png --c_path ./projector_test_data/00000.npy
-python run_projector.py --outdir=projector_out --latent_space_type w_plus  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/00000.png --c_path ./projector_test_data/00000.npy
+python run_projector.py --outdir=projector_out --latent_space_type w  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/06000.png --c_path ./projector_test_data/06000.npy --num_steps 500
+python run_projector.py --outdir=projector_out --latent_space_type w_plus  --network=networks/ffhq512-128.pkl --sample_mult=2  --image_path ./projector_test_data/female_1_Pei_15.png --c_path ./projector_test_data/female_1_Pei_15.npy --num_steps 500
+
+python run_projector_batch.py --outdir=projector_out --latent_space_type w_plus  --network=networks/ffhq512-128.pkl --sample_mult=2  --num_steps 500
 
 
+python gen_videos_from_given_latent_code.py --outdir=out --trunc=0.7 --npy_path ./projector_out/00025_w_plus/00025_w_plus.npy   --network=networks/ffhq512-128.pkl --sample_mult=2
 
-python gen_videos_from_given_latent_code.py --outdir=out --trunc=0.7 --npy_path ./projector_out/00000_w_plus/00000_w_plus.npy   --network=networks/ffhq512-128.pkl --sample_mult=2
+python gen_videos_from_given_latent_code.py --outdir=out --trunc=0.7 --npy_path ./projector_out/female_1_Pei_15_w_plus/female_1_Pei_15_w_plus.npy   --network=networks/ffhq512-128.pkl --sample_mult=2
 
 
+python gen_videos.py --outdir=out --trunc=0.7 --seeds=1 --grid=1x1  --network=networks/ffhq512-128.pkl --sample_mult=2
 
-python gen_videos_from_given_latent_code.py --outdir=out --trunc=0.7 --npy_path ./projector_out/00000_w/00000_w.npy   --network=F:/rendering-reality/source/eg3d/PTI/checkpoints/model_ADMUHGJLVZUF_00000.pth --sample_mult=2
+
+python gen_videos_from_pti_latent_code.py --outdir=out --trunc=0.7 --sample_mult=2
+
+
+python gen_videos_from_given_latent_code.py --outdir=out --trunc=0.7 --npy_path ./projector_out/00602_w_plus/00602_w_plus.npy   --network=./projector/PTI/checkpoints/model_DLEVPISAQFRW_00586_w_plus.pth --sample_mult=2
 
 
 python train.py --outdir=~/training-runs --cfg=ffhq --data=~/datasets/FFHQ_512.zip  --resume=~/training-runs/ffhq_experiment_dir/network-snapshot-025000.pkl --gpus=8 --batch=32 --gamma=1 --gen_pose_cond=True --neural_rendering_resolution_final=128 --dry-run

@@ -142,7 +142,7 @@ def gen_interp_video(G, mp4: str, seeds, shuffle_seed=None, w_frames=60 * 4, kin
                 interp = grid[yi][xi]
                 w = torch.from_numpy(interp(frame_idx / w_frames)).to(device)
 
-                entangle = 'camera'
+                entangle = 'both'
                 if entangle == 'conditioning':
                     c_forward = torch.cat([LookAtPoseSampler.sample(3.14 / 2,
                                                                     3.14 / 2,

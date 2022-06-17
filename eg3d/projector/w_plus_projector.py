@@ -130,9 +130,9 @@ def project(
                 noise = F.avg_pool2d(noise, kernel_size=2)
         loss = dist + reg_loss * regularize_noise_weight
 
-        if step % 10 == 0:
-            with torch.no_grad():
-                print({f'step {step}, first projection _{w_name}': loss.detach().cpu()})
+        # if step % 10 == 0:
+        #     with torch.no_grad():
+        #         print({f'step {step}, first projection _{w_name}': loss.detach().cpu()})
 
         # Step
         optimizer.zero_grad(set_to_none=True)

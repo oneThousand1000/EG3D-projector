@@ -15,9 +15,9 @@ experiments_output_dir = './output'
 
 ## Input info
 ### Input dir, where the images reside
-input_data_path = '../../projector_test_data'
+input_data_path = '../../projector_test_data/00025.png'
 ### Inversion identifier, used to keeping track of the inversion results. Both the latent code and the generator
-input_data_id = '00000'
+input_data_id = '00025'
 
 input_c_path = '../../projector_test_data'
 

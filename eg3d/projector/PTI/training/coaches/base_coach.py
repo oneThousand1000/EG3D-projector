@@ -24,8 +24,6 @@ class BaseCoach:
         self.w_pivots = {}
         self.image_counter = 0
 
-        if hyperparameters.first_inv_type == 'w+':
-            self.initilize_e4e()
 
         self.e4e_image_transform = transforms.Compose([
             transforms.ToPILImage(),

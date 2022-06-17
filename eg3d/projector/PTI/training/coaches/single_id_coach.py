@@ -13,16 +13,14 @@ class SingleIDCoach(BaseCoach):
 
     def train(self):
 
-        w_path_dir = f'{paths_config.embedding_base_dir}/{paths_config.input_data_id}'
-        os.makedirs(w_path_dir, exist_ok=True)
-        os.makedirs(f'{w_path_dir}/{paths_config.pti_results_keyword}', exist_ok=True)
+
 
         use_ball_holder = True
 
         for fname, image in tqdm(self.data_loader):
 
             image_name = fname[0]
-
+            w_path_dir = f'{paths_config.embedding_base_dir}/{image_name}'
             c_path = os.path.join(paths_config.input_c_path,f'{image_name}.npy')
             print("image_name: ", fname, 'c_path', c_path)
             c = np.load(c_path)
@@ -63,7 +61,6 @@ class SingleIDCoach(BaseCoach):
 
                 self.optimizer.zero_grad()
 
-                print(f' step {i}, loss :{loss.detach().cpu().numpy()}')
                 if loss_lpips <= hyperparameters.LPIPS_value_threshold:
                     break
 

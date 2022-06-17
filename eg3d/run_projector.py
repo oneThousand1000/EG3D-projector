@@ -21,7 +21,7 @@ import numpy as np
 import torch
 import legacy
 from torchvision.transforms import transforms
-from projector import w_projector,z_projector,w_plus_projector
+from projector import w_projector,w_plus_projector
 from PIL import Image
 # ----------------------------------------------------------------------------
 
@@ -68,6 +68,8 @@ def parse_tuple(s: Union[str, Tuple[int, int]]) -> Tuple[int, int]:
 @click.option('--c_path', help='camera parameters path', type=str, required=True, metavar='STR', show_default=True)
 @click.option('--sample_mult', 'sampling_multiplier', type=float,
               help='Multiplier for depth sampling in volume rendering', default=2, show_default=True)
+@click.option('--num_steps', 'num_steps', type=int,
+              help='Multiplier for depth sampling in volume rendering', default=500, show_default=True)
 @click.option('--nrr', type=int, help='Neural rendering resolution override', default=None, show_default=True)
 def run(
         network_pkl: str,
@@ -76,7 +78,8 @@ def run(
         nrr: Optional[int],
         latent_space_type:str,
         image_path:str,
-        c_path:str
+        c_path:str,
+        num_steps:int
 ):
     """Render a latent vector interpolation video.
     Examples:
@@ -124,15 +127,20 @@ def run(
 
     if latent_space_type == 'w':
 
-        w = w_projector.project(G, c, outdir,id_image, device=torch.device('cuda'), w_avg_samples=600,num_steps = 1000,
+        w = w_projector.project(G, c, outdir,id_image, device=torch.device('cuda'), w_avg_samples=600,num_steps = num_steps,
                                 w_name=image_name)
     else:
 
-        w = w_plus_projector.project(G, c,outdir, id_image, device=torch.device('cuda'), w_avg_samples=600, w_name=image_name,num_steps = 1000 )
+        w = w_plus_projector.project(G, c,outdir, id_image, device=torch.device('cuda'), w_avg_samples=600, w_name=image_name,num_steps = num_steps )
         pass
 
     w = w.detach().cpu().numpy()
-    np.save(f'{outdir}/{image_name}_w/{image_name}_{latent_space_type}.npy', w)
+    np.save(f'{outdir}/{image_name}_{latent_space_type}/{image_name}_{latent_space_type}.npy', w)
+
+    PTI_embedding_dir = f'./projector/PTI/embeddings/{image_name}'
+    os.makedirs(PTI_embedding_dir,exist_ok=True)
+
+    np.save(f'./projector/PTI/embeddings/{image_name}/{image_name}_{latent_space_type}.npy', w)
 
 # ----------------------------------------------------------------------------
 
