@@ -61,7 +61,7 @@ Then run:
 
 ```
 cd eg3d/projector/PTI
-python run_PTI
+python run_pti_single_image.py
 ```
 
 This script will automatically read the images in `./eg3d/projector_test_data`, and find their pivot latent code in `./eg3d/projector_out`, then finetune the eg3d model.
