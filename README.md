@@ -1,6 +1,6 @@
-# EG3D projector
+# EG3D inversion projector
 
-
+This is an **unofficial** inversion code of  **[eg3d](https://github.com/NVlabs/eg3d)**.
 
 <video src="./eg3d/out/00056_w_plus.mp4"></video>
 
