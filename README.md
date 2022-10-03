@@ -29,6 +29,19 @@ pth file will be saved to `networks/ffhq512-128.pth`.
 
 In this repo,  please prepare the input image `image_id.png` and its camera parameters `image_id.npy`. (please see the examplar data in  `./eg3d/projector_test_data`)
 
+## pretrained model
+
+The [projector needs vgg16](https://github.com/oneThousand1000/EG3D-projector/blob/68e44af799b103c75978b11fa825ff9062297c6c/eg3d/projector/w_plus_projector.py#L99) for loss computation, you can download vgg16.pt from https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/vgg16.pt and save it to `EG3D-projector/eg3d/network`.
+
+Or load it from url (vgg16.pt will be automatically downloaded) like : https://github.com/danielroich/PTI/blob/5f4c05726caa908a46537c5aaca6ebc8ea34201e/training/projectors/w_plus_projector.py#L64 , Line 64-66
+
+```
+    url = 'https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/vgg16.pt'
+    with dnnlib.util.open_url(url) as f:
+        vgg16 = torch.jit.load(f).eval().to(device)
+        
+```
+
 ## w and w_plus projector
 
 This complementation reproduces the w_projector and w_plus_projector based on the projector [scripts](https://github.com/danielroich/PTI/tree/main/training/projectors) in [PTI](https://github.com/danielroich/PTI).
