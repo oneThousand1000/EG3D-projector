@@ -25,7 +25,11 @@ pth file will be saved to `networks/ffhq512-128.pth`.
 
 ## Data preparation
 
-**Notice:** please follow the guidance of **[eg3d](https://github.com/NVlabs/eg3d)** to re-align the FFHQ dataset and extract camera parameters (camera parameters can be found in [dataset.json](https://drive.google.com/uc?id=14mzYD1DxUjh7BGgeWKgXtLHWwvr-he1Z)) for input image.
+**Notice:** 
+
+For **FFHQ** images, please follow the guidance of **[eg3d](https://github.com/NVlabs/eg3d)** to re-align the FFHQ dataset and extract camera parameters (camera parameters can be found in [dataset.json](https://drive.google.com/uc?id=14mzYD1DxUjh7BGgeWKgXtLHWwvr-he1Z)) for input image.
+
+For **wild** images, please refer to this [script](https://github.com/NVlabs/eg3d/blob/main/dataset_preprocessing/ffhq/preprocess_in_the_wild.py) that can preprocess in-the-wild images compatible with the FFHQ checkpoints.
 
 In this repo,  please prepare the input image `image_id.png` and its camera parameters `image_id.npy`. (please see the examplar data in  `./eg3d/projector_test_data`)
 
