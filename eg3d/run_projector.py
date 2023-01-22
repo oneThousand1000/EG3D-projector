@@ -118,9 +118,9 @@ def run(
     c = torch.FloatTensor(c).cuda()
 
     trans = transforms.Compose([
+        transforms.Resize((512,512)),
         transforms.ToTensor(),
         transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
-        transforms.Resize((512,512))
     ])
     from_im = trans(image).cuda()
     id_image = torch.squeeze((from_im.cuda() + 1) / 2) * 255
