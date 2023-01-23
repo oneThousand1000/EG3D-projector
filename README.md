@@ -10,6 +10,21 @@ This is an **unofficial** inversion code of  **[eg3d](https://github.com/NVlabs/
 
 Please see **[eg3d](https://github.com/NVlabs/eg3d)** official repo for eg3d installation.
 
+Requirements：
+
+CUDA 11.3 
+
+```
+torch                        1.11.0
+torchvision                  0.12.0
+wandb                        0.12.18
+lpips                        0.1.4
+```
+
+
+
+
+
 ## convert pkl to pth file (optional)
 
 This step is used to load the parameters from pkl checkpoint and save them to a pth file, so that code modifications on eg3d can take effect.
